@@ -1,0 +1,7 @@
+Shadow Guardian Frontend 0.1.1
+Native AArch64 preparation and diagnostics interface.
+Gameplay engine is NOT integrated or validated in this executable.
+Original APK and Gameloft game resources are not included.
+Checks: expected ZIP entry names and nonempty resource file count.
+Not checked: APK manifest identity/version, CRC, ELF imports, JNI, asset integrity.
+No hardware acceptance has been performed for this package.

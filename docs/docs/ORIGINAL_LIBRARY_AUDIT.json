@@ -1,0 +1,42 @@
+{
+  "source": "user-provided ShadowGuardian-Original-PortMaster.zip",
+  "sha256": "ad17a127ae438e829a23e372ddd8100f82fe6a311b0ad295b8cead69d5805ef9",
+  "bytes": 3821784,
+  "jni_exports": [
+    "Java_com_gameloft_android_ANMP_GloftSGHP_ML_ShadowGuardian_nativeOnExitGLLive",
+    "Java_com_gameloft_android_ANMP_GloftSGHP_ML_ShadowGuardian_nativeOnKeyUp",
+    "Java_com_gameloft_android_ANMP_GloftSGHP_ML_GLUtils_Device_nativeInit",
+    "Java_com_gameloft_android_ANMP_GloftSGHP_ML_GameRenderer_nativeRender",
+    "Java_com_gameloft_android_ANMP_GloftSGHP_ML_GameRenderer_nativeInit",
+    "Java_com_gameloft_android_ANMP_GloftSGHP_ML_ShadowGuardian_nativeOnExitIGP",
+    "Java_com_gameloft_android_ANMP_GloftSGHP_ML_ShadowGuardian_nativeSetCamIntterupt",
+    "Java_com_gameloft_android_ANMP_GloftSGHP_ML_GameGLSurfaceView_nativePause",
+    "Java_com_gameloft_android_ANMP_GloftSGHP_ML_GameRenderer_nativeResize",
+    "Java_com_gameloft_android_ANMP_GloftSGHP_ML_GameGLSurfaceView_nativeResume",
+    "Java_com_gameloft_android_ANMP_GloftSGHP_ML_GameRenderer_nativeDone",
+    "Java_com_gameloft_android_ANMP_GloftSGHP_ML_GLResLoader_nativeInit",
+    "Java_com_gameloft_android_ANMP_GloftSGHP_ML_ShadowGuardian_nativeInit",
+    "Java_com_gameloft_android_ANMP_GloftSGHP_ML_GameGLSurfaceView_nativeOnTouch",
+    "Java_com_gameloft_android_ANMP_GloftSGHP_ML_ShadowGuardian_nativeCanInterrupt",
+    "Java_com_gameloft_android_ANMP_GloftSGHP_ML_ShadowGuardian_nativeOrientation",
+    "Java_com_gameloft_android_ANMP_GloftSGHP_ML_ShadowGuardian_nativeGetInfo",
+    "Java_com_gameloft_android_ANMP_GloftSGHP_ML_ShadowGuardian_nativeOnKeyDown",
+    "Java_com_gameloft_android_ANMP_GloftSGHP_ML_ShadowGuardian_nativeAccelerator"
+  ],
+  "current_boot_missing_exports": [
+    "Java_com_gameloft_glf_GL2JNILib_InitViewSettings",
+    "Java_com_gameloft_glf_GL2JNILib_getNumExtraContext",
+    "Java_com_gameloft_glf_GL2JNILib_init",
+    "Java_com_gameloft_glf_GL2JNILib_initGL",
+    "Java_com_gameloft_glf_GL2JNILib_onPause",
+    "Java_com_gameloft_glf_GL2JNILib_onResume",
+    "Java_com_gameloft_glf_GL2JNILib_resize",
+    "Java_com_gameloft_glf_GL2JNILib_setNumExtraContext",
+    "Java_com_gameloft_glf_GL2JNILib_setPaths",
+    "Java_com_gameloft_glf_GL2JNILib_step"
+  ],
+  "data_file_count": 3684,
+  "data_bytes": 524375398,
+  "nonempty_data_files": 3680,
+  "gameplay_tested": false
+}
