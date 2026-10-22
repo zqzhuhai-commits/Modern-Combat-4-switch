@@ -71,10 +71,57 @@ const char *port_path_fixup(const char *real, char *out, size_t cap) {
     return real;
 }
 
+/* Single-file NSP: game data rides in the NSP's RomFS. On first launch,
+ * mount the process RomFS and copy the data out to the SD game root, so the
+ * SD layout and the SD path remain the source of truth afterwards. */
+static void deploy_one(const char *src, const char *dst) {
+    struct stat st;
+    if (!stat(dst, &st) && st.st_size > 0) return; /* already deployed */
+    FILE *f = fopen(src, "rb");
+    if (!f) return;
+    char tmp[768];
+    snprintf(tmp, sizeof tmp, "%s.deploy", dst);
+    FILE *o = fopen(tmp, "wb");
+    if (!o) { fclose(f); return; }
+    char buf[65536];
+    size_t n, total = 0;
+    while ((n = fread(buf, 1, sizeof buf, f))) { fwrite(buf, 1, n, o); total += n; }
+    int error = ferror(f);
+    fclose(f);
+    fclose(o);
+    if (!error && total > 0) {
+        if (rename(tmp, dst)) remove(tmp);
+        debugPrintf("[mc4/deploy] %s -> %s (%lu bytes)\n", src, dst, (unsigned long)total);
+    } else {
+        remove(tmp);
+    }
+}
+
+static void deploy_from_romfs(void) {
+    Result rc = romfsMountFromCurrentProcess("fwd");
+    if (R_FAILED(rc)) { debugPrintf("[mc4/deploy] no process romfs; SD layout expected\n"); return; }
+    const char *root = dcr_game_root();
+    char dir[768], dst[768];
+    snprintf(dir, sizeof dir, "%s/obb", root);
+    mkdir(dir, 0777);
+    snprintf(dir, sizeof dir, "%s/assets", root);
+    mkdir(dir, 0777);
+    snprintf(dst, sizeof dst, "%s/libModernCombat4.so", root);
+    deploy_one("fwd:/libModernCombat4.so", dst);
+    snprintf(dst, sizeof dst, "%s/obb/main.1100.com.gameloft.android.ANMP.GloftM4HM.obb", root);
+    deploy_one("fwd:/obb/main.1100.com.gameloft.android.ANMP.GloftM4HM.obb", dst);
+    snprintf(dst, sizeof dst, "%s/obb/patch.12222.com.gameloft.android.ANMP.GloftM4HM.obb", root);
+    deploy_one("fwd:/obb/patch.12222.com.gameloft.android.ANMP.GloftM4HM.obb", dst);
+    snprintf(dst, sizeof dst, "%s/assets/eventParameters.json", root);
+    deploy_one("fwd:/assets/eventParameters.json", dst);
+    romfsUnmount("fwd");
+    debugPrintf("[mc4/deploy] romfs data deployment pass complete\n");
+}
+
 static int required_data(void) {
     const char *names[] = {
         "obb/" "main.1100.com.gameloft.android.ANMP.GloftM4HM.obb",
-        "main.1100.com.gameloft.android.ANMP.GloftM4HM.obb",
+        "obb/" "patch.12222.com.gameloft.android.ANMP.GloftM4HM.obb",
         "assets"
     };
     int ok = 1;
@@ -209,6 +256,7 @@ int main(int argc, char **argv) {
     dcr_config_load();
     dcr_time_init();
     dcr_path_prepare_dirs();
+    deploy_from_romfs();
     debugPrintf("A: attempt original game initialization. PLUS: exit.\n");
     log_flush_ring();
     padConfigureInput(1, HidNpadStyleSet_NpadStandard);

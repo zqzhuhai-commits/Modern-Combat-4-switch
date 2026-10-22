@@ -3,3 +3,4 @@ build/
 *.nsp
 *.map
 *.o
+package-full/
